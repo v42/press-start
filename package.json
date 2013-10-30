@@ -1,0 +1,11 @@
+{
+  "name": "front-in-poa",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Vitor Carlos <vitor@v42.com.br>",
+  "devDependencies": {
+    "stylus": "~0.39.1",
+    "nib": "",
+    "flour": "~0.5.5"
+  }
+}
