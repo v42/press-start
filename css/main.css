@@ -1,4 +1,6 @@
-body{background:#000;color:#fff;font:20px "Press Start 2P";padding:20px}
-article{padding:20px;border:1px solid #fff;width:100%;height:100%;box-sizing:border-box}
-section{height:100%}
+body{background:#000;color:#fff;font-size:2vw;padding:10vh 5vw;margin:0;overflow:hidden;font:20px "Press Start 2P"}
+article{border:1px solid #fff;width:90vw;height:80vh;padding:5vh 5vw;box-sizing:border-box}
+section{width:80vw;height:70vh;box-sizing:border-box;vertical-align:middle;text-align:center}
+.button{display:inline-block;width:10px;height:10px;background:#808080;}
+.button.pressed{background:#f00}
 @font-face{font-family:"Press Start 2P";src:url("../fonts/PressStart2P-Regular.ttf")}

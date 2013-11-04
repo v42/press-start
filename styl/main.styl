@@ -1,18 +1,33 @@
 body
-	background: black
-	color: white
-	font: 20px "Press Start 2P"
-	padding: 20px
+    background: black
+    color: white
+    font-size: 2vw
+    padding: 10vh 5vw
+    margin: 0
+    overflow: hidden
+    font: 20px "Press Start 2P"
 
 article
-	padding: 20px
 	border: 1px solid white
-	width: 100%
-	height: 100%
+	width: 90vw
+	height: 80vh
+	padding: 5vh 5vw
 	box-sizing: border-box
 
 section
-	height: 100%
+	width: 80vw
+	height: 70vh
+	box-sizing: border-box
+	vertical-align: middle
+	text-align: center
+
+.button
+	display: inline-block
+	width: 10px
+	height: 10px
+	background: gray
+	&.pressed
+		background: red
 	
 @font-face
 	font-family: "Press Start 2P"
