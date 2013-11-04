@@ -1,6 +1,39 @@
 body{background:#000;color:#fff;font-size:2vw;padding:10vh 5vw;margin:0;overflow:hidden;font:20px "Press Start 2P"}
 article{border:1px solid #fff;width:90vw;height:80vh;padding:5vh 5vw;box-sizing:border-box}
 section{width:80vw;height:70vh;box-sizing:border-box;vertical-align:middle;text-align:center}
-.button{display:inline-block;width:10px;height:10px;background:#808080;}
-.button.pressed{background:#f00}
+.gamepad{position:relative;display:inline-block;margin:50px 0;width:400px;height:200px;background:#dde0e6;z-index:1}
+.shoulder-buttons{position:absolute;width:100%;height:10px;top:-10px;left:0;}
+.shoulder-buttons .button.pressed{height:5px}
+.shoulder-buttons .rt{right:20px}
+.shoulder-buttons .lt{left:20px}
+.shoulder-buttons .rb{right:60px}
+.shoulder-buttons .lb{left:60px}
+.shoulder-buttons .lt,.shoulder-buttons .rt{width:80px;height:10px;bottom:0}
+.shoulder-buttons .lb,.shoulder-buttons .rb{width:20px;top:-25px;z-index:2}
+.dpad,.analogue{position:absolute;background:#aaa;width:60px;height:60px}
+.analogue.left{top:40px;left:20px}
+.analogue.right{top:120px;right:100px}
+.dpad{top:120px;left:100px;}
+.dpad .button{width:20px;height:20px}
+.dpad .up,.dpad .down{left:20px}
+.dpad .left,.dpad .right{top:20px}
+.dpad .up{top:5px}
+.dpad .down{bottom:5px}
+.dpad .left{left:5px}
+.dpad .right{right:5px}
+.buttons-right{position:absolute;top:20px;right:20px;width:100px;height:100px;}
+.buttons-right .y,.buttons-right .a{left:35px}
+.buttons-right .x,.buttons-right .b{top:35px}
+.buttons-right .b{right:0}
+.buttons-right .a{bottom:0}
+.button{position:absolute;width:30px;height:30px;background:#fff;z-index:3;}
+.button.start,.button.select{top:55px}
+.button.select{left:150px}
+.button.start{right:150px}
+.button.x{background:#00f}
+.button.y{background:#ff0}
+.button.a{background:#008000}
+.button.b{background:#f00}
+.analogue .button,.dpad .button{background:#808080}
+.button.pressed{opacity:.5}
 @font-face{font-family:"Press Start 2P";src:url("../fonts/PressStart2P-Regular.ttf")}

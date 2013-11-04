@@ -21,13 +21,110 @@ section
 	vertical-align: middle
 	text-align: center
 
-.button
+.gamepad
+	position: relative
 	display: inline-block
-	width: 10px
+	margin: 50px 0
+	width: 400px
+	height: 200px
+	background: #dde0e6
+	z-index: 1
+
+.shoulder-buttons
+	position: absolute
+	width: 100%
 	height: 10px
-	background: gray
-	&.pressed
+	top: -10px
+	left: 0
+	.button.pressed
+		height: 5px
+	.rt
+		right: 20px
+	.lt
+		left: 20px
+	.rb
+		right: 60px
+	.lb
+		left: 60px
+	.lt, .rt
+		width: 80px
+		height: 10px
+		bottom: 0
+	.lb, .rb
+		width: 20px
+		top: -25px
+		z-index: 2
+.dpad, .analogue
+	position: absolute
+	background: #aaa
+	width: 60px
+	height: 60px
+
+.analogue
+	&.left
+		top: 40px
+		left: 20px
+	&.right
+		top: 120px
+		right: 100px
+.dpad
+	top: 120px
+	left: 100px
+	.button
+		width: 20px
+		height: 20px
+	.up, .down
+		left: 20px
+	.left, .right
+		top: 20px
+	.up
+		top: 5px
+	.down
+		bottom: 5px
+	.left
+		left: 5px
+	.right
+		right: 5px
+
+.buttons-right
+	position: absolute
+	top: 20px
+	right: 20px
+	width: 100px
+	height: 100px
+	.y, .a
+		left: 35px
+	.x, .b
+		top: 35px
+	.b
+		right: 0
+	.a
+		bottom: 0
+
+.button
+	position: absolute
+	width: 30px
+	height: 30px
+	background: white
+	z-index: 3
+	&.start, &.select
+		top: 55px
+	&.select
+		left: 150px
+	&.start
+		right: 150px
+	&.x
+		background: blue
+	&.y
+		background: yellow
+	&.a
+		background: green
+	&.b
 		background: red
+	.analogue &, .dpad &
+		background: #808080
+	&.pressed
+		opacity: .5
 	
 @font-face
 	font-family: "Press Start 2P"
