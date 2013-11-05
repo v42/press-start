@@ -7,25 +7,24 @@
 	  , gamepad = {}
 	  , timer
 	  , buttons = {
-	  		a: 0
-	  	  , b: 1
-	  	  , x: 2
-	  	  , y: 3
-	  	  , lt: 4
-	  	  , rt: 5
-	  	  , lb: 6
-	  	  , rb: 7
-	  	  , select: 8
-	  	  , start: 9
-	  	  , leftStick: 10
-	  	  , rightStick: 11
-	  	  , up: 12
-	  	  , down: 13
-	  	  , left: 14
-	  	  , right: 15
+	  		a: {id: 0}
+	  	  , b: {id: 1}
+	  	  , x: {id: 2}
+	  	  , y: {id: 3}
+	  	  , lt: {id: 4}
+	  	  , rt: {id: 5}
+	  	  , lb: {id: 6}
+	  	  , rb: {id: 7}
+	  	  , select: {id: 8}
+	  	  , start: {id: 9}
+	  	  , leftStick: {id: 10}
+	  	  , rightStick: {id: 11}
+	  	  , up: {id: 12}
+	  	  , down: {id: 13}
+	  	  , left: {id: 14}
+	  	  , right: {id: 15}
 	  	}
 	  , domButtons = []
-	  , buttonList = ['a', 'b', 'x', 'y', 'lt', 'rt', 'select', 'start', 'leftStick', 'rightStick', 'up', 'down', 'left', 'right']
 
 	function init() {
 		gpMap()
@@ -36,29 +35,24 @@
 
 
 	function gpMap() {
-		buttonList.map(function(btn) {
-			domButtons[btn] = document.querySelectorAll('.button.' + btn)[0]
+		_.each(buttons, function(button, name) {
+			domButtons[name] = document.querySelectorAll('.button.' + name)[0]
 		})
 	}
-
-
-	var bacon = false
 
 	function updateGamepad() {
-		buttonList.map(function(btn) {
-			if(buttonPressed(btn)) {
-				domButtons[btn].className = "button pressed " + btn
+		_.each(buttons, function(button, name) {
+			if(gamepad) {
+				button.previousState = button.state
+				button.state = gamepad.buttons[button.id]
+				if(name != "lb" && name != "rb") {
+					domButtons[name].className = "button " + name + (button.state ? " pressed" : "")
+				}
 			} else {
-				domButtons[btn].className = "button " + btn
+				button.state = 0
+				button.previousState = 0
 			}
-			if(!bacon) console.log(domButtons[btn])
 		})
-		bacon = true
-	}
-
-	function buttonPressed (buttonName) {
-		var buttonId = buttons[buttonName]
-		return gamepad && gamepad.buttons[buttonId]
 	}
 
 	// <3 Weezer
@@ -81,22 +75,28 @@
 		requestAnimationFrame(heartbeat)
 	}
 
+	function isPressed(button) {
+		return !buttons[button].previousState && buttons[button].state
+	}
+
 	function pressStart() {
-		if(buttonPressed('start')) {
-			chageState('selectScreen')
+		if(isPressed('start')) {
+			changeState('selectScreen')
 		}
 	}
 
 	function changeState(newState){
-		leaveCurrentState(newState)
+		leaveCurrentState(function() {
+			enterNewState(newState)
+		})
 	}
 
-	function leaveCurrentStage(newState) {
-
+	function leaveCurrentState(callback) {
+		callback()
 	}
 
 	function enterNewState(newState) { 
-
+		console.log('enterNewState: ' + newState)
 	}
 
 	window.onhashchange = function() {
