@@ -52,24 +52,29 @@ section
 		bottom: 0
 	.lb, .rb
 		width: 20px
-		top: -25px
+		height: 35px
 		z-index: 2
+		bottom: 5px
 .dpad, .analogue
 	position: absolute
-	background: #aaa
+	background: #999
+.dpad
 	width: 60px
 	height: 60px
+.analogue
+	width: 42px
+	height: 42px
 
 .analogue
 	&.left
-		top: 40px
-		left: 20px
+		top: 45px
+		left: 45px
 	&.right
-		top: 120px
-		right: 100px
+		top: 130px
+		right: 125px
 .dpad
 	top: 120px
-	left: 100px
+	left: 110px
 	.button
 		width: 20px
 		height: 20px
@@ -122,9 +127,15 @@ section
 	&.b
 		background: red
 	.analogue &, .dpad &
-		background: #808080
+		background: #aaa
+	.analogue &
+		width: 36px
+		height: 36px
 	&.pressed
 		opacity: .5
+	&.leftStick, &.rightStick
+		top: 3px
+		left: 3px
 	
 @font-face
 	font-family: "Press Start 2P"

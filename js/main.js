@@ -25,6 +25,7 @@
 	  	  , right: {id: 15}
 	  	}
 	  , domButtons = []
+	  , BUTTON_THRESHOLD = 0.05
 
 	function init() {
 		gpMap()
@@ -45,7 +46,14 @@
 			if(gamepad) {
 				button.previousState = button.state
 				button.state = gamepad.buttons[button.id]
-				if(name != "lb" && name != "rb") {
+				
+				if(name == "lb" || name == "rb") {
+					if(button.state > BUTTON_THRESHOLD) {
+						domButtons[name].setAttribute("style","height:" + ((30 * (1 - button.state)) + 10) + "px")
+					} else {
+						domButtons[name].setAttribute("style","height:30px");
+					}
+				} else {
 					domButtons[name].className = "button " + name + (button.state ? " pressed" : "")
 				}
 			} else {
@@ -53,6 +61,11 @@
 				button.previousState = 0
 			}
 		})
+
+		if(gamepad) {
+			domButtons['leftStick'].setAttribute("style", "left:" + (3 + (20 * gamepad.axes[0])) + "px; top: "+ (3 + (10 * gamepad.axes[1])) + "px")
+			domButtons['rightStick'].setAttribute("style", "left:" + (3 + (20 * gamepad.axes[2])) + "px; top: "+ (3 + (10 * gamepad.axes[3])) + "px")
+		}
 	}
 
 	// <3 Weezer

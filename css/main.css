@@ -9,11 +9,13 @@ section{width:80vw;height:70vh;box-sizing:border-box;vertical-align:middle;text-
 .shoulder-buttons .rb{right:60px}
 .shoulder-buttons .lb{left:60px}
 .shoulder-buttons .lt,.shoulder-buttons .rt{width:80px;height:10px;bottom:0}
-.shoulder-buttons .lb,.shoulder-buttons .rb{width:20px;top:-25px;z-index:2}
-.dpad,.analogue{position:absolute;background:#aaa;width:60px;height:60px}
-.analogue.left{top:40px;left:20px}
-.analogue.right{top:120px;right:100px}
-.dpad{top:120px;left:100px;}
+.shoulder-buttons .lb,.shoulder-buttons .rb{width:20px;height:35px;z-index:2;bottom:5px}
+.dpad,.analogue{position:absolute;background:#999}
+.dpad{width:60px;height:60px}
+.analogue{width:42px;height:42px}
+.analogue.left{top:45px;left:45px}
+.analogue.right{top:130px;right:125px}
+.dpad{top:120px;left:110px;}
 .dpad .button{width:20px;height:20px}
 .dpad .up,.dpad .down{left:20px}
 .dpad .left,.dpad .right{top:20px}
@@ -34,6 +36,8 @@ section{width:80vw;height:70vh;box-sizing:border-box;vertical-align:middle;text-
 .button.y{background:#ff0}
 .button.a{background:#008000}
 .button.b{background:#f00}
-.analogue .button,.dpad .button{background:#808080}
+.analogue .button,.dpad .button{background:#aaa}
+.analogue .button{width:36px;height:36px}
 .button.pressed{opacity:.5}
+.button.leftStick,.button.rightStick{top:3px;left:3px}
 @font-face{font-family:"Press Start 2P";src:url("../fonts/PressStart2P-Regular.ttf")}
