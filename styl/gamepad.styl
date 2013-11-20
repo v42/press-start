@@ -1,0 +1,122 @@
+.gamepad
+	position: absolute
+	bottom: 50%
+	left: 50%
+	margin: -100px 0 0 -200px
+	width: 400px
+	height: 200px
+	background: #dde0e6
+	z-index: 10
+	transition: background .5s 2s, bottom .5s 2s, left .5s 2s, opacity .5s 2s, -webkit-transform .5s 2s
+	&.mini
+		bottom: 50px
+		left: 150px
+		-webkit-transform: scale(.5)
+
+
+.shoulder-buttons
+	position: absolute
+	width: 100%
+	height: 10px
+	top: -10px
+	left: 0
+	.button.pressed
+		height: 5px
+	.rt
+		right: 20px
+	.lt
+		left: 20px
+	.rb
+		right: 60px
+	.lb
+		left: 60px
+	.lt, .rt
+		width: 80px
+		height: 10px
+		bottom: 0
+	.lb, .rb
+		width: 20px
+		height: 35px
+		z-index: 2
+		bottom: 5px
+.dpad, .analogue
+	position: absolute
+	background: #999
+.dpad
+	width: 60px
+	height: 60px
+.analogue
+	width: 42px
+	height: 42px
+
+.analogue
+	&.left
+		top: 45px
+		left: 45px
+	&.right
+		top: 130px
+		right: 125px
+.dpad
+	top: 120px
+	left: 110px
+	.button
+		width: 20px
+		height: 20px
+	.up, .down
+		left: 20px
+	.left, .right
+		top: 20px
+	.up
+		top: 5px
+	.down
+		bottom: 5px
+	.left
+		left: 5px
+	.right
+		right: 5px
+
+.buttons-right
+	position: absolute
+	top: 20px
+	right: 20px
+	width: 100px
+	height: 100px
+	.y, .a
+		left: 35px
+	.x, .b
+		top: 35px
+	.b
+		right: 0
+	.a
+		bottom: 0
+
+.button
+	position: absolute
+	width: 30px
+	height: 30px
+	background: white
+	z-index: 3
+	&.start, &.select
+		top: 55px
+	&.select
+		left: 150px
+	&.start
+		right: 150px
+	&.x
+		background: blue
+	&.y
+		background: yellow
+	&.a
+		background: green
+	&.b
+		background: red
+	.analogue &, .dpad &
+		background: #aaa
+	.analogue &
+		width: 36px
+		height: 36px
+	&.pressed
+		opacity: .5
+	&.leftStick, &.rightStick
+		top: 3px
+		left: 3px
