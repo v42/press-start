@@ -6,40 +6,54 @@
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+	<div class="gamepad">
+		<div class="dpad">
+			<div class="button up"></div>
+			<div class="button down"></div>
+			<div class="button left"></div>
+			<div class="button right"></div>
+		</div>
+		<div class="shoulder-buttons">
+			<div class="button lt"></div>
+			<div class="button lb"></div>
+			<div class="button rt"></div>
+			<div class="button rb"></div>
+		</div>
+		<div class="analogue left">
+			<div class="button leftStick"></div>
+		</div>
+		<div class="analogue right">
+			<div class="button rightStick"></div>
+		</div>
+		<div class="button start"></div>
+		<div class="button select"></div>
+		<div class="buttons-right">
+			<div class="button a"></div>
+			<div class="button b"></div>
+			<div class="button x"></div>
+			<div class="button y"></div>
+		</div>
+	</div>
 	<article>
-		<section>
-			<div class="gamepad">
-				<div class="dpad">
-					<div class="button up"></div>
-					<div class="button down"></div>
-					<div class="button left"></div>
-					<div class="button right"></div>
-				</div>
-				<div class="shoulder-buttons">
-					<div class="button lt"></div>
-					<div class="button lb"></div>
-					<div class="button rt"></div>
-					<div class="button rb"></div>
-				</div>
-				<div class="analogue left">
-					<div class="button leftStick"></div>
-				</div>
-				<div class="analogue right">
-					<div class="button rightStick"></div>
-				</div>
-				<div class="button start"></div>
-				<div class="button select"></div>
-				<div class="buttons-right">
-					<div class="button a"></div>
-					<div class="button b"></div>
-					<div class="button x"></div>
-					<div class="button y"></div>
-				</div>
-			</div>
-			<h1>Press Start</h1>
+		<section id="slide-1" class="current">
+			<h1 class="blink">Press Start</h1>
+		</section>
+		<section id="slide-2">
+			<ul>
+				<li class="active">
+					<h1>Select your character</h1>
+					<h2 class="ken">Ken</h2>
+					<h2 class="ryu">Ryu</h2>
+					<h2 class="fox">Fox</h2>
+				</li>
+			</ul>
+		</section>
+		<section id="slide-3">
+			
 		</section>
 	</article>
 	<script src="js/vendor/lodash.js"></script>
+	<script src="js/vendor/soundmanager2.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>

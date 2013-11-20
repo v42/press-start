@@ -1,7 +1,10 @@
-body{background:#000;color:#fff;font-size:2vw;padding:10vh 5vw;margin:0;overflow:hidden;font:20px "Press Start 2P"}
-article{border:1px solid #fff;width:90vw;height:80vh;padding:5vh 5vw;box-sizing:border-box}
-section{width:80vw;height:70vh;box-sizing:border-box;vertical-align:middle;text-align:center}
-.gamepad{position:relative;display:inline-block;margin:50px 0;width:400px;height:200px;background:#dde0e6;z-index:1}
+body{background:#000;color:#fff;font-size:2vw;padding:0;margin:0;font:20px "Press Start 2P"}
+article{margin:0 auto;width:1024px;height:768px;box-sizing:border-box}
+section{width:1024px;height:768px;padding:20px;box-sizing:border-box;display:none;opacity:0;transition:opacity 1s .5s;}
+section.current{display:block;opacity:1}
+@font-face{font-family:"Press Start 2P";src:url("../fonts/PressStart2P-Regular.ttf")}
+.gamepad{position:absolute;bottom:50%;left:50%;margin:-100px 0 0 -200px;width:400px;height:200px;background:#dde0e6;z-index:10;transition:background .5s 2s,bottom .5s 2s,left .5s 2s,opacity .5s 2s,-webkit-transform .5s 2s;}
+.gamepad.mini{bottom:50px;left:150px;-webkit-transform:scale(.5)}
 .shoulder-buttons{position:absolute;width:100%;height:10px;top:-10px;left:0;}
 .shoulder-buttons .button.pressed{height:5px}
 .shoulder-buttons .rt{right:20px}
@@ -40,4 +43,8 @@ section{width:80vw;height:70vh;box-sizing:border-box;vertical-align:middle;text-
 .analogue .button{width:36px;height:36px}
 .button.pressed{opacity:.5}
 .button.leftStick,.button.rightStick{top:3px;left:3px}
-@font-face{font-family:"Press Start 2P";src:url("../fonts/PressStart2P-Regular.ttf")}
+.blink{-webkit-animation:blink 1s step-end infinite;}
+.blink.faster{-webkit-animation:blink .2s step-end infinite}
+@-webkit-keyframes blink{0%{opacity:1}
+50%{opacity:0}
+}#slide-1 h1{text-align:center;margin-top:500px}

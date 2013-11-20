@@ -26,9 +26,11 @@
 	  	}
 	  , domButtons = []
 	  , BUTTON_THRESHOLD = 0.05
+	  , currentSlide = 1
 
 	function init() {
 		gpMap()
+		smStart()
 
 		heartbeat()
 		console.log("it's on! :)")
@@ -39,6 +41,86 @@
 		_.each(buttons, function(button, name) {
 			domButtons[name] = document.querySelectorAll('.button.' + name)[0]
 		})
+	}
+
+	function smStart() {
+		soundManager.setup({
+			url: 'swf/'
+		  , flashVersion: 9
+		  , onready: function() {
+				soundManager.createSound({
+					id: 'pause',
+					url: 'assets/mp3/03 Pause.mp3',
+					autoLoad: true,
+					loops: 999,
+					volume: 0,
+					autoPlay: false
+				})
+			}
+		})
+	}
+
+	var slidesFunctions = {
+		2: function() {
+				console.log('hue')
+			}
+	}
+
+	function slides() {
+		if(released('rt')) {
+			nextSlide()
+		}
+
+		if(released('lt')) {
+			prevSlide()
+		}
+		if(slidesFunctions[currentSlide]) {
+			slidesFunctions[currentSlide]()
+		}
+	}
+
+	function nextSlide() {
+		leaveCurrentSlide(function(){
+			_.defer(function(){
+				currentSlide += 1
+				enterCurrentSlide()
+			})
+		})
+	}
+
+	function prevSlide() {
+		leaveCurrentSlide(function() {
+			_.defer(function(){
+				currentSlide -= 1
+				enterCurrentSlide()
+			})
+		})
+	}
+
+	function enterCurrentSlide() {
+		switch(currentSlide) {
+			case 1:
+				document.querySelector('.gamepad').className = 'gamepad'
+				document.querySelector('#slide-1 h1').className = 'blink'
+				state = 'start'
+				break
+		}
+		document.getElementById('slide-' + currentSlide).className = 'current'
+	}
+
+	function leaveCurrentSlide(callback) {
+		var timeout = 0
+		switch(currentSlide) {
+			case 1:
+				document.querySelector('.gamepad').className = 'gamepad mini'
+				document.querySelector('#slide-1 h1').className = 'blink faster'
+				timeout = 2000
+				break
+		}
+		window.setTimeout(function(){
+			document.getElementById('slide-' + currentSlide).className = ''
+			callback()
+		}, timeout)
 	}
 
 	function updateGamepad() {
@@ -82,39 +164,28 @@
 		switch(state) {
 			case "start":
 				pressStart()
-			break
+				break
+			default:
+				slides()
+				break
 		}
 
 		requestAnimationFrame(heartbeat)
 	}
 
-	function isPressed(button) {
+	function pressed(button) {
 		return !buttons[button].previousState && buttons[button].state
 	}
 
+	function released(button) {
+		return buttons[button].previousState && !buttons[button].state
+	}
+
 	function pressStart() {
-		if(isPressed('start')) {
-			changeState('selectScreen')
+		if(released('start')) {
+			state = 'slides'
+			nextSlide()
 		}
-	}
-
-	function changeState(newState){
-		leaveCurrentState(function() {
-			enterNewState(newState)
-		})
-	}
-
-	function leaveCurrentState(callback) {
-		callback()
-	}
-
-	function enterNewState(newState) { 
-		console.log('enterNewState: ' + newState)
-	}
-
-	window.onhashchange = function() {
-		var state = location.hash.replace('#/', '')
-		changeState(state)
 	}
 
 	init()
