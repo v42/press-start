@@ -1,0 +1,57 @@
+#triforce-stage
+	display:inline-block
+	position:relative
+	margin-top: 50px
+	-webkit-perspective:1800px
+
+	.pyramid
+		position:absolute
+		&.bottom
+			top:100px
+		div
+			display:block
+			position:absolute
+			-webkit-backface-visibility: hidden
+		&.top
+			left:60px
+		&.left, &.right
+			top:103px
+		&.right
+			left:120px
+
+	.triangle
+		background:url("../img/triforce-side.png") no-repeat
+		width:120px
+		height:104px
+		background-size:119px
+
+	.front
+		-webkit-transform: translate3d(0, 0, 15px)
+	.back
+		-webkit-transform: translate3d(0, 0, -15px) rotateY(180deg)
+	.side
+		width:120px
+		height:30px
+		background-color:#ff3
+		&.bottom
+			-webkit-transform: rotateX(90deg) translate3d(0,0,-85px)
+		&.right
+			-webkit-transform: rotateX(90deg) rotateY(60deg) translate3d(45px,0,8px)
+		&.left
+			-webkit-transform: rotateX(90deg) rotateY(-60deg) translate3d(-45px,0,8px)
+
+#triforce
+	width:240px
+	height:240px
+
+	-webkit-transform-style: preserve-3d
+	transform-style: preserve-3d
+
+	-webkit-animation: spinY 3s linear infinite
+	animation: spinY 3s linear infinite
+
+@-webkit-keyframes spinY
+	from
+		-webkit-transform: rotateY(0)
+	to
+		-webkit-transform: rotateY(360deg)

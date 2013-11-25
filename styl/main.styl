@@ -1,3 +1,5 @@
+@import('vitor-picks')
+
 body
     background: black
     color: white
@@ -5,6 +7,12 @@ body
     padding: 0
     margin: 0
     font: 20px "Press Start 2P"
+
+.body-wrapper
+	margin: 0 auto
+	width: 1024px
+	height: 768px
+	position: relative
 
 article
 	margin: 0 auto
@@ -15,6 +23,7 @@ article
 section
 	width: 1024px
 	height: 768px
+	text-align: center
 	padding: 20px
 	box-sizing: border-box
 	display: none
@@ -23,6 +32,13 @@ section
 	&.current
 		display: block
 		opacity: 1
+h1
+	font-size: 50px
+	line-height: 70px
+	&.tilde
+		&:before, &:after
+			content: '~'
+			display: block
 	
 @font-face
 	font-family: "Press Start 2P"
@@ -31,3 +47,4 @@ section
 @import('gamepad')
 @import('animations')
 @import('slides')
+@import('triforce')

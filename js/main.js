@@ -11,10 +11,10 @@
 	  	  , b: {id: 1}
 	  	  , x: {id: 2}
 	  	  , y: {id: 3}
-	  	  , lt: {id: 4}
-	  	  , rt: {id: 5}
-	  	  , lb: {id: 6}
-	  	  , rb: {id: 7}
+	  	  , lb: {id: 4}
+	  	  , rb: {id: 5}
+	  	  , lt: {id: 6}
+	  	  , rt: {id: 7}
 	  	  , select: {id: 8}
 	  	  , start: {id: 9}
 	  	  , leftStick: {id: 10}
@@ -26,16 +26,26 @@
 	  	}
 	  , domButtons = []
 	  , BUTTON_THRESHOLD = 0.05
+	  , AXIS_THRESHOLD = 0.08
 	  , currentSlide = 1
+	  , totalSlides = document.querySelectorAll('section').length
+	  , changingSlides = false
+	  , slidesLoop = {}
+	  , special = []
 
 	function init() {
 		gpMap()
+		tagSlides()
 		smStart()
+		keyboardBinds()
 
 		heartbeat()
 		console.log("it's on! :)")
 	}
 
+	window.onload = function() {
+		init()
+	}
 
 	function gpMap() {
 		_.each(buttons, function(button, name) {
@@ -43,10 +53,42 @@
 		})
 	}
 
+	function tagSlides() {
+		_.each(document.querySelectorAll('section'), function(elm, idx){
+			elm.setAttribute("id", "slide-" + (idx + 1))
+			if(elm.dataset.special) {
+				special[elm.dataset.special] = idx + 1
+			}
+		})
+	}
+
+	function keyboardBinds() {
+		window.onkeypress = function(e) {
+			var evt = new CustomEvent("keyPress", {detail:{key: e.keyCode}})
+			document.body.dispatchEvent(evt)
+		}
+
+		window.onkeyup = function(e) {
+			var evt = new CustomEvent("keyUp", {detail:{key: e.keyCode}})
+			document.body.dispatchEvent(evt)
+		}
+
+		window.onkeydown = function(e) {
+			var evt = new CustomEvent("keyDown", {detail:{key: e.keyCode}})
+			document.body.dispatchEvent(evt)
+		}
+
+		document.body.addEventListener("keyUp", function(e) {
+			if(e.detail.key == 79) prevSlide()
+			if(e.detail.key == 80) nextSlide()
+		})
+	}
+
 	function smStart() {
 		soundManager.setup({
 			url: 'swf/'
 		  , flashVersion: 9
+		  , debugMode: false
 		  , onready: function() {
 				soundManager.createSound({
 					id: 'pause',
@@ -60,41 +102,42 @@
 		})
 	}
 
-	var slidesFunctions = {
-		2: function() {
-				console.log('hue')
-			}
-	}
-
 	function slides() {
-		if(released('rt')) {
+		if(released('rb')) {
 			nextSlide()
 		}
 
-		if(released('lt')) {
+		if(released('lb')) {
 			prevSlide()
 		}
-		if(slidesFunctions[currentSlide]) {
-			slidesFunctions[currentSlide]()
+
+		if(slidesLoop[currentSlide]) {
+			slidesLoop[currentSlide]()
 		}
 	}
 
 	function nextSlide() {
-		leaveCurrentSlide(function(){
-			_.defer(function(){
-				currentSlide += 1
-				enterCurrentSlide()
+		if(currentSlide < totalSlides && !changingSlides) {
+			changingSlides = true
+			leaveCurrentSlide(function(){
+				_.defer(function(){
+					currentSlide += 1
+					enterCurrentSlide()
+				})
 			})
-		})
+		}
 	}
 
 	function prevSlide() {
-		leaveCurrentSlide(function() {
-			_.defer(function(){
-				currentSlide -= 1
-				enterCurrentSlide()
+		if(currentSlide > 1 && !changingSlides) {
+			changingSlides = true
+			leaveCurrentSlide(function() {
+				_.defer(function(){
+					currentSlide -= 1
+					enterCurrentSlide()
+				})
 			})
-		})
+		}
 	}
 
 	function enterCurrentSlide() {
@@ -104,8 +147,30 @@
 				document.querySelector('#slide-1 h1').className = 'blink'
 				state = 'start'
 				break
+			case 2:
+				state = 'slides'
+				break
+			case special['dtloop']:
+				initDtLoop()
+				break
+			case special['deltatime']:
+				initLemmingDt()
+				break
+			case special['keypress']:
+				initLemmingKp()
+				break
+			case special['keyboard']:
+				initLemmingKeyboard()
+				break
+			case special['gamepadLemming']:
+				initLemming()
+				break
+			case special['gamepad']:
+				document.querySelector('.gamepad').className = 'gamepad'
+				break
 		}
 		document.getElementById('slide-' + currentSlide).className = 'current'
+		changingSlides = false
 	}
 
 	function leaveCurrentSlide(callback) {
@@ -116,11 +181,141 @@
 				document.querySelector('#slide-1 h1').className = 'blink faster'
 				timeout = 2000
 				break
+			case special['gamepad']:
+				document.querySelector('.gamepad').className = 'gamepad mini'
+				timeout = 2000
+				break
 		}
 		window.setTimeout(function(){
 			document.getElementById('slide-' + currentSlide).className = ''
 			callback()
 		}, timeout)
+	}
+
+	function initLemming() {
+		var lemming = document.querySelector('#slide-' + special['gamepad'] + ' .lemming'),
+			lemmingLeft = 400,
+			lemmingSpeed = 1000/60
+		
+		lemming.className = 'lemming'
+
+		slidesLoop['gamepad'] = function() {
+			var gpa = gamepad && gamepad.axes[0]
+			if(gpa && (gpa > AXIS_THRESHOLD || gpa < -AXIS_THRESHOLD)) {
+				if(gpa > 0) {
+					lemmingLeft += lemmingSpeed * gpa
+					lemming.className = 'lemming'
+				} else {
+					lemmingLeft -= lemmingSpeed * -gpa
+					lemming.className = 'lemming flip'
+				}
+			}
+			lemming.setAttribute("style", "left: " + lemmingLeft + "px")
+		}
+	}
+
+	function initLemmingDt() {
+		var lemming = document.querySelector('#slide-' + special['deltatime'] + ' .lemming'),
+			lemmingLeft = 0,
+			lemmingSpeed = 200,
+			lemmingDirection = 'r'
+		
+		lemming.className = 'lemming'
+
+		slidesLoop[special['deltatime']] = function() {
+			
+			lemmingSpeed = 200
+			var variation = (lemmingSpeed * dt)/1000
+
+			if(lemmingDirection == 'r') {
+				lemmingLeft += variation
+				if(lemmingLeft > 100) {
+					lemmingDirection = 'l'
+					lemming.className = 'lemming flip'
+				}
+			} else {
+				lemmingLeft -= variation
+				if(lemmingLeft < 0) {
+					lemmingDirection = 'r'
+					lemming.className = 'lemming'
+				}
+			}
+			
+			lemming.setAttribute("style", "left: " + lemmingLeft + "px")
+		}
+	}
+
+	function initLemmingKp() {
+		var lemming = document.querySelector('#slide-' + special['keypress'] + ' .lemming'),
+			lemmingLeft = 400,
+			lemmingSpeed = 50,
+			lemmingDirection = ''
+		
+		lemming.className = 'lemming'
+		lemming.setAttribute("style", "left: " + lemmingLeft + "px")
+
+		document.body.addEventListener("keyDown", function(e) {
+			switch(e.detail.key) {
+				case 37:
+					lemmingLeft -= lemmingSpeed
+					lemming.className = 'lemming flip'
+					break
+				case 39:
+					lemmingLeft += lemmingSpeed
+					lemming.className = 'lemming'
+					break
+			}
+			lemming.setAttribute("style", "left: " + lemmingLeft + "px")
+		})
+	}
+
+	function initLemmingKeyboard() {
+		var keys = [],
+			lemming = document.querySelector('#slide-' + special['keyboard'] + ' .lemming'),
+			lemmingLeft = 0,
+			lemmingSpeed = 200,
+			lemmingDirection = 'r'
+		
+		lemming.className = 'lemming'
+
+		var keys = {
+			37: {state: false, previousState: false},
+			39: {state: false, previousState: false}
+		}
+
+		document.body.addEventListener("keyDown", function(e) {
+			if(keys[e.detail.key]) {
+				keys[e.detail.key].previousState = keys[e.detail.key].state
+				keys[e.detail.key].state = true
+			}
+		})
+
+		document.body.addEventListener("keyUp", function(e) {
+			if(keys[e.detail.key]) {
+				keys[e.detail.key].previousState = keys[e.detail.key].state
+				keys[e.detail.key].state = false
+			}
+		})
+
+		slidesLoop[special['keyboard']] = function() {
+
+			if(keys[39].state && !keys[37].state) {
+				lemmingLeft += (lemmingSpeed * dt)/1000
+				lemming.className = 'lemming'
+			} else if(keys[37].state && !keys[39].state){
+				lemmingLeft -= (lemmingSpeed * dt)/1000
+				lemming.className = 'lemming flip'
+			}
+			
+			lemming.setAttribute("style", "left: " + lemmingLeft + "px")
+		}
+	}
+
+	function initDtLoop() {
+		var dtspan = document.querySelector('#slide-' + special['dtloop'] + ' .dtcounter span')
+		slidesLoop[special['dtloop']] = function() {
+			dtspan.innerHTML = dt
+		}
 	}
 
 	function updateGamepad() {
@@ -129,7 +324,7 @@
 				button.previousState = button.state
 				button.state = gamepad.buttons[button.id]
 				
-				if(name == "lb" || name == "rb") {
+				if(name == "lt" || name == "rt") {
 					if(button.state > BUTTON_THRESHOLD) {
 						domButtons[name].setAttribute("style","height:" + ((30 * (1 - button.state)) + 10) + "px")
 					} else {
@@ -183,10 +378,8 @@
 
 	function pressStart() {
 		if(released('start')) {
-			state = 'slides'
 			nextSlide()
 		}
 	}
 
-	init()
 })()

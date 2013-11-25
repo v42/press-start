@@ -1,18 +1,23 @@
+ul{list-style:none;}
+ul.bullets{display:inline-block;list-style:circle;text-align:left}
 body{background:#000;color:#fff;font-size:2vw;padding:0;margin:0;font:20px "Press Start 2P"}
+.body-wrapper{margin:0 auto;width:1024px;height:768px;position:relative}
 article{margin:0 auto;width:1024px;height:768px;box-sizing:border-box}
-section{width:1024px;height:768px;padding:20px;box-sizing:border-box;display:none;opacity:0;transition:opacity 1s .5s;}
+section{width:1024px;height:768px;text-align:center;padding:20px;box-sizing:border-box;display:none;opacity:0;transition:opacity 1s .5s;}
 section.current{display:block;opacity:1}
+h1{font-size:50px;line-height:70px;}
+h1.tilde:before,h1.tilde:after{content:'~';display:block}
 @font-face{font-family:"Press Start 2P";src:url("../fonts/PressStart2P-Regular.ttf")}
-.gamepad{position:absolute;bottom:50%;left:50%;margin:-100px 0 0 -200px;width:400px;height:200px;background:#dde0e6;z-index:10;transition:background .5s 2s,bottom .5s 2s,left .5s 2s,opacity .5s 2s,-webkit-transform .5s 2s;}
-.gamepad.mini{bottom:50px;left:150px;-webkit-transform:scale(.5)}
+.gamepad{position:absolute;bottom:300px;left:50%;margin-left:-200px;width:400px;height:200px;background:#dde0e6;z-index:10;transition:background .5s 2s,bottom .5s 2s,margin .5s 2s,left .5s 2s,opacity .5s 2s,-webkit-transform .5s 2s;}
+.gamepad.mini{bottom:10px;left:10px;margin:0;-webkit-transform:scale(.5)}
 .shoulder-buttons{position:absolute;width:100%;height:10px;top:-10px;left:0;}
 .shoulder-buttons .button.pressed{height:5px}
-.shoulder-buttons .rt{right:20px}
-.shoulder-buttons .lt{left:20px}
-.shoulder-buttons .rb{right:60px}
-.shoulder-buttons .lb{left:60px}
-.shoulder-buttons .lt,.shoulder-buttons .rt{width:80px;height:10px;bottom:0}
-.shoulder-buttons .lb,.shoulder-buttons .rb{width:20px;height:35px;z-index:2;bottom:5px}
+.shoulder-buttons .rb{right:20px}
+.shoulder-buttons .lb{left:20px}
+.shoulder-buttons .rt{right:60px}
+.shoulder-buttons .lt{left:60px}
+.shoulder-buttons .lb,.shoulder-buttons .rb{width:80px;height:10px;bottom:0}
+.shoulder-buttons .lt,.shoulder-buttons .rt{width:20px;height:35px;z-index:2;bottom:5px}
 .dpad,.analogue{position:absolute;background:#999}
 .dpad{width:60px;height:60px}
 .analogue{width:42px;height:42px}
@@ -47,4 +52,26 @@ section.current{display:block;opacity:1}
 .blink.faster{-webkit-animation:blink .2s step-end infinite}
 @-webkit-keyframes blink{0%{opacity:1}
 50%{opacity:0}
-}#slide-1 h1{text-align:center;margin-top:500px}
+}.flip{-webkit-transform:scaleX(-1)}
+#slide-1 h1{text-align:center;margin-top:500px}
+#slide-10 .bullets{width:700px;font-size:20px;line-height:25px}
+.lemming{position:absolute;top:200px;left:0}
+#slide-54 h2{margin-top:420px;font-size:28px}
+#triforce-stage{display:inline-block;position:relative;margin-top:50px;-webkit-perspective:1800px;}
+#triforce-stage .pyramid{position:absolute;}
+#triforce-stage .pyramid.bottom{top:100px}
+#triforce-stage .pyramid div{display:block;position:absolute;-webkit-backface-visibility:hidden}
+#triforce-stage .pyramid.top{left:60px}
+#triforce-stage .pyramid.left,#triforce-stage .pyramid.right{top:103px}
+#triforce-stage .pyramid.right{left:120px}
+#triforce-stage .triangle{background:url("../img/triforce-side.png") no-repeat;width:120px;height:104px;background-size:119px}
+#triforce-stage .front{-webkit-transform:translate3d(0,0,15px)}
+#triforce-stage .back{-webkit-transform:translate3d(0,0,-15px) rotateY(180deg)}
+#triforce-stage .side{width:120px;height:30px;background-color:#ff3;}
+#triforce-stage .side.bottom{-webkit-transform:rotateX(90deg) translate3d(0,0,-85px)}
+#triforce-stage .side.right{-webkit-transform:rotateX(90deg) rotateY(60deg) translate3d(45px,0,8px)}
+#triforce-stage .side.left{-webkit-transform:rotateX(90deg) rotateY(-60deg) translate3d(-45px,0,8px)}
+#triforce{width:240px;height:240px;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;-webkit-animation:spinY 3s linear infinite;animation:spinY 3s linear infinite}
+@-webkit-keyframes spinY{0%{-webkit-transform:rotateY(0)}
+100%{-webkit-transform:rotateY(360deg)}
+}

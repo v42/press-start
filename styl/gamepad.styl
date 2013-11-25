@@ -1,16 +1,17 @@
 .gamepad
 	position: absolute
-	bottom: 50%
+	bottom: 300px
 	left: 50%
-	margin: -100px 0 0 -200px
+	margin-left: -200px
 	width: 400px
 	height: 200px
 	background: #dde0e6
 	z-index: 10
-	transition: background .5s 2s, bottom .5s 2s, left .5s 2s, opacity .5s 2s, -webkit-transform .5s 2s
+	transition: background .5s 2s, bottom .5s 2s, margin .5s 2s, left .5s 2s, opacity .5s 2s, -webkit-transform .5s 2s
 	&.mini
-		bottom: 50px
-		left: 150px
+		bottom: 10px
+		left: 10px
+		margin: 0
 		-webkit-transform: scale(.5)
 
 
@@ -22,19 +23,19 @@
 	left: 0
 	.button.pressed
 		height: 5px
-	.rt
-		right: 20px
-	.lt
-		left: 20px
 	.rb
-		right: 60px
+		right: 20px
 	.lb
+		left: 20px
+	.rt
+		right: 60px
+	.lt
 		left: 60px
-	.lt, .rt
+	.lb, .rb
 		width: 80px
 		height: 10px
 		bottom: 0
-	.lb, .rb
+	.lt, .rt
 		width: 20px
 		height: 35px
 		z-index: 2
