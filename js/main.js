@@ -163,7 +163,7 @@
 				initLemmingKeyboard()
 				break
 			case special['gamepadLemming']:
-				initLemming()
+				initGamepadLemming()
 				break
 			case special['gamepad']:
 				document.querySelector('.gamepad').className = 'gamepad'
@@ -192,14 +192,14 @@
 		}, timeout)
 	}
 
-	function initLemming() {
-		var lemming = document.querySelector('#slide-' + special['gamepad'] + ' .lemming'),
+	function initGamepadLemming() {
+		var lemming = document.querySelector('#slide-' + special['gamepadLemming'] + ' .lemming'),
 			lemmingLeft = 400,
 			lemmingSpeed = 1000/60
 		
 		lemming.className = 'lemming'
 
-		slidesLoop['gamepad'] = function() {
+		slidesLoop['gamepadLemming'] = function() {
 			var gpa = gamepad && gamepad.axes[0]
 			if(gpa && (gpa > AXIS_THRESHOLD || gpa < -AXIS_THRESHOLD)) {
 				if(gpa > 0) {
@@ -216,20 +216,31 @@
 
 	function initLemmingDt() {
 		var lemming = document.querySelector('#slide-' + special['deltatime'] + ' .lemming'),
+			speedSpan = document.querySelector('#slide-' + special['deltatime'] + ' .speed'),
 			lemmingLeft = 0,
 			lemmingSpeed = 200,
-			lemmingDirection = 'r'
+			lemmingDirection = 'r',
+			elapsedTime = 0,
+			pixelsMoved = 0
 		
 		lemming.className = 'lemming'
 
 		slidesLoop[special['deltatime']] = function() {
-			
-			lemmingSpeed = 200
+
 			var variation = (lemmingSpeed * dt)/1000
+
+			elapsedTime += dt
+			pixelsMoved += variation
+			if(elapsedTime > 1000) {
+				pixelsMoved = pixelsMoved | 0
+				speedSpan.innerHTML = pixelsMoved
+				elapsedTime = elapsedTime - 1000
+				pixelsMoved = 0
+			}
 
 			if(lemmingDirection == 'r') {
 				lemmingLeft += variation
-				if(lemmingLeft > 100) {
+				if(lemmingLeft > 800) {
 					lemmingDirection = 'l'
 					lemming.className = 'lemming flip'
 				}
