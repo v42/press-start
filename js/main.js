@@ -168,6 +168,9 @@
 			case special['gamepad']:
 				document.querySelector('.gamepad').className = 'gamepad'
 				break
+			case special['canvasDash']:
+				initCanvasDash()
+				break
 		}
 		document.getElementById('slide-' + currentSlide).className = 'current'
 		changingSlides = false
@@ -326,6 +329,15 @@
 		var dtspan = document.querySelector('#slide-' + special['dtloop'] + ' .dtcounter span')
 		slidesLoop[special['dtloop']] = function() {
 			dtspan.innerHTML = dt
+		}
+	}
+
+	function initCanvasDash() {
+		var canvas = document.querySelector('#slide-' + special['canvasDash'] + ' canvas')
+		slidesLoop[special['canvasDash']] = function() {
+			if(released('a')) {
+				canvas.className = (canvas.className == 'dashed' ? '' : 'dashed')
+			}
 		}
 	}
 

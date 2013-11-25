@@ -56,6 +56,7 @@ h1.tilde:before,h1.tilde:after{content:'~';display:block}
 #slide-1 h1{text-align:center;margin-top:500px}
 #slide-10 .bullets{width:700px;font-size:20px;line-height:25px}
 .lemming{position:absolute;top:200px;left:0}
+.dashed{border:5px dashed #fff}
 #slide-54 h2{margin-top:420px;font-size:28px}
 #triforce-stage{display:inline-block;position:relative;margin-top:50px;-webkit-perspective:1800px;}
 #triforce-stage .pyramid{position:absolute;}
