@@ -32,12 +32,14 @@
 	  , changingSlides = false
 	  , slidesLoop = {}
 	  , special = []
+	  , text
 
 	function init() {
 		gpMap()
 		tagSlides()
 		smStart()
 		keyboardBinds()
+		mouseBinds()
 
 		heartbeat()
 		console.log("it's on! :)")
@@ -81,6 +83,18 @@
 		document.body.addEventListener("keyUp", function(e) {
 			if(e.detail.key == 79) prevSlide()
 			if(e.detail.key == 80) nextSlide()
+		})
+	}
+	
+	function mouseBinds() {
+		var clickys = document.getElementsByClassName('clicky')
+		_.each(clickys, function(clicky) {
+			clicky.addEventListener('click', function(e) {
+				var obj = document.querySelector('.current .text')
+				if(obj) {
+					obj.innerHTML = 'elm:' + e.srcElement.tagName.toLowerCase() + '<br />X:' + e.offsetX + ' Y:' + e.offsetY
+				}
+			})
 		})
 	}
 
@@ -170,6 +184,12 @@
 				break
 			case special['canvasDash']:
 				initCanvasDash()
+				break
+			case special['canvasDraw']:
+				initCanvasDraw()
+				break
+			case special['svgDraw']:
+				initSvgDraw()
 				break
 		}
 		document.getElementById('slide-' + currentSlide).className = 'current'
@@ -336,6 +356,79 @@
 		slidesLoop[special['canvasDash']] = function() {
 			if(released('a')) {
 				canvas.className = (canvas.className == 'dashed' ? '' : 'dashed')
+			}
+		}
+	}
+
+	function initCanvasDraw() {
+		var canvas = document.querySelector('#slide-' + special['canvasDraw'] + ' canvas'),
+			context = canvas.getContext('2d'),
+			cw2 = 320,
+			ch2 = 240,
+			radius = 48,
+			posX = cw2,
+			posY = ch2,
+			autoclean = true,
+			drawing = true
+
+		function draw() {
+			context.beginPath()
+			context.arc(posX, posY, radius, 0, 2 * Math.PI, false)
+			context.fillStyle = 'cyan'
+			context.fill()
+			context.lineWidth = 5
+			context.strokeStyle = 'magenta'
+			context.stroke()
+		}
+
+		function erase() {
+			context.clearRect(0, 0, canvas.width, canvas.height)
+		}
+
+		slidesLoop[special['canvasDraw']] = function() {
+			if(released('a')) {
+				erase()
+				drawing = !drawing
+			}
+			if(released('b')) {
+				autoclean = !autoclean
+			}
+			if(autoclean) {
+				erase()
+			}
+			if(drawing && gamepad) {
+				var gpax = gamepad.axes[0],
+					gpay = gamepad.axes[1]
+
+				if(gpax > AXIS_THRESHOLD || gpax < -AXIS_THRESHOLD) {
+					posX = (gpax * cw2) + cw2
+				}
+				if(gpay > AXIS_THRESHOLD || gpay < -AXIS_THRESHOLD) {
+					posY = (gpay * ch2) + ch2
+				}
+			}
+			draw()
+		}
+	}
+
+	function initSvgDraw() {
+		var ball = document.querySelector('#slide-' + special['svgDraw'] + ' ellipsis'),
+			sw2 = 320,
+			sh2 = 240
+
+		slidesLoop[special['svgDraw']] = function() {
+			if(gamepad) {
+				var gpax = gamepad.axes[0],
+					gpay = gamepad.axes[1]
+
+				if(gpax > AXIS_THRESHOLD || gpax < -AXIS_THRESHOLD) {
+					ball.x = (gpax * sw2) + sw2
+				}
+				if(gpay > AXIS_THRESHOLD || gpay < -AXIS_THRESHOLD) {
+					ball.y = (gpay * sh2) + sh2
+				}
+
+				draw()
 			}
 		}
 	}

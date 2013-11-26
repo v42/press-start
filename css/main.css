@@ -57,7 +57,8 @@ h1.tilde:before,h1.tilde:after{content:'~';display:block}
 .bullets{width:700px;font-size:30px;line-height:36px}
 .lemming{position:absolute;top:200px;left:0}
 .dashed{border:5px dashed #fff}
-.gamepad-command{margin-top:420px;font-size:28px}
+.dotted{border:5px dotted #fff}
+.gamepad-command{position:relative;margin-top:430px;font-size:28px;z-index:10}
 #triforce-stage{display:inline-block;position:relative;margin-top:50px;-webkit-perspective:1800px;}
 #triforce-stage .pyramid{position:absolute;}
 #triforce-stage .pyramid.bottom{top:100px}
