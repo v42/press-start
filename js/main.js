@@ -186,7 +186,6 @@
 				break
 			case special['gamepad']:
 				document.querySelector('.gamepad').className = 'gamepad mini'
-				timeout = 2000
 				break
 		}
 		window.setTimeout(function(){
