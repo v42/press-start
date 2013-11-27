@@ -54,7 +54,9 @@ h1.tilde:before,h1.tilde:after{content:'~';display:block}
 50%{opacity:0}
 }.flip{-webkit-transform:scaleX(-1)}
 #slide-1 h1{text-align:center;margin-top:500px}
-.bullets{width:700px;font-size:30px;line-height:36px}
+.bullets,.steps{font-size:30px;line-height:36px}
+.bullets{width:700px}
+.steps{width:800;text-align:left}
 .lemming{position:absolute;top:200px;left:0}
 .dashed{border:5px dashed #fff}
 .dotted{border:5px dotted #fff}

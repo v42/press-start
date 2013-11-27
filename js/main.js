@@ -109,11 +109,46 @@
 					url: 'assets/mp3/03 Pause.mp3',
 					autoLoad: true,
 					loops: 999,
-					volume: 0,
+					autoPlay: true
+				})
+
+				soundManager.createSound({
+					id: 'lemmings',
+					url: 'assets/mp3/Lemmings - Rondo Alla Turca.mp3',
+					autoLoad: true,
+					loops: 1,
+					autoPlay: false
+				})
+
+				soundManager.createSound({
+					id: 'select',
+					url: 'assets/mp3/Street Fighter - Selecting.mp3',
+					autoLoad: true,
+					loops: 1,
+					autoPlay: false
+				})
+
+				soundManager.createSound({
+					id: 'choose',
+					url: 'assets/mp3/Street Fighter - Choose.mp3',
+					autoLoad: true,
+					loops: 1,
 					autoPlay: false
 				})
 			}
 		})
+	}
+
+	function smFade(soundId) {
+		var sound = soundManager.getSoundById(soundId)
+		var interval = window.setInterval(function() {
+			if (sound.volume > 0) {
+				sound.setVolume(sound.volume - 1)
+			} else {
+				soundManager.stop(soundId)
+				window.clearInterval(interval)
+			}
+		}, 10)
 	}
 
 	function slides() {
@@ -159,9 +194,11 @@
 			case 1:
 				document.querySelector('.gamepad').className = 'gamepad'
 				document.querySelector('#slide-1 h1').className = 'blink'
+				soundManager.play('pause')
 				state = 'start'
 				break
 			case 2:
+				smFade('pause')
 				state = 'slides'
 				break
 			case special['dtloop']:
@@ -191,6 +228,12 @@
 			case special['svgDraw']:
 				initSvgDraw()
 				break
+			case special['audio']:
+				initAudio()
+				break
+			case special['soundManager']:
+				initSoundManager()
+				break
 		}
 		document.getElementById('slide-' + currentSlide).className = 'current'
 		changingSlides = false
@@ -217,22 +260,24 @@
 	function initGamepadLemming() {
 		var lemming = document.querySelector('#slide-' + special['gamepadLemming'] + ' .lemming'),
 			lemmingLeft = 400,
-			lemmingSpeed = 1000/60
+			lemmingSpeed = 17
 		
 		lemming.className = 'lemming'
 
-		slidesLoop['gamepadLemming'] = function() {
-			var gpa = gamepad && gamepad.axes[0]
-			if(gpa && (gpa > AXIS_THRESHOLD || gpa < -AXIS_THRESHOLD)) {
-				if(gpa > 0) {
-					lemmingLeft += lemmingSpeed * gpa
-					lemming.className = 'lemming'
-				} else {
-					lemmingLeft -= lemmingSpeed * -gpa
-					lemming.className = 'lemming flip'
+		slidesLoop[special['gamepadLemming']] = function() {
+			if(gamepad) {
+				var gpa = gamepad.axes[0]
+				if(gpa > AXIS_THRESHOLD || gpa < -AXIS_THRESHOLD) {
+					if(gpa > 0) {
+						lemmingLeft += lemmingSpeed * gpa
+						lemming.className = 'lemming'
+					} else {
+						lemmingLeft -= lemmingSpeed * -gpa
+						lemming.className = 'lemming flip'
+					}
 				}
+				lemming.setAttribute("style", "left: " + lemmingLeft + "px")
 			}
-			lemming.setAttribute("style", "left: " + lemmingLeft + "px")
 		}
 	}
 
@@ -412,7 +457,7 @@
 	}
 
 	function initSvgDraw() {
-		var ball = document.querySelector('#slide-' + special['svgDraw'] + ' ellipsis'),
+		var ball = document.querySelector('#slide-' + special['svgDraw'] + ' ellipse'),
 			sw2 = 320,
 			sh2 = 240
 
@@ -422,13 +467,80 @@
 					gpay = gamepad.axes[1]
 
 				if(gpax > AXIS_THRESHOLD || gpax < -AXIS_THRESHOLD) {
-					ball.x = (gpax * sw2) + sw2
+					ball.setAttribute('cx', (gpax * sw2) + sw2)
 				}
 				if(gpay > AXIS_THRESHOLD || gpay < -AXIS_THRESHOLD) {
-					ball.y = (gpay * sh2) + sh2
+					ball.setAttribute('cy', (gpay * sh2) + sh2)
 				}
+			}
+		}
+	}
 
-				draw()
+	function initAudio() {
+		var context,
+			bufferLoader,
+			bufferList,
+			hadouken,
+			shoryuken,
+			tatsumaki
+
+		window.AudioContext = window.AudioContext || window.webkitAudioContext
+		context = new AudioContext()
+
+		bufferLoader = new BufferLoader(
+			context,
+			[
+				'assets/wav/hadouken.wav',
+				'assets/wav/shoryuken.wav',
+				'assets/wav/tatsumaki.wav',
+			],
+			finishedLoading
+		)
+
+		bufferLoader.load()
+
+		function finishedLoading(bl) {
+			bufferList = bl
+		}
+
+		slidesLoop[special['audio']] = function() {
+			if(pressed('a')) {
+				hadouken = context.createBufferSource()
+				hadouken.buffer = bufferList[0]
+				hadouken.connect(context.destination)
+				hadouken.start(0)
+			}
+			if(pressed('x')) {
+				shoryuken = context.createBufferSource()
+				shoryuken.buffer = bufferList[1]
+				shoryuken.connect(context.destination)
+				shoryuken.start(0)
+			}
+			if(pressed('b')) {
+				tatsumaki = context.createBufferSource()
+				tatsumaki.buffer = bufferList[2]
+				tatsumaki.connect(context.destination)
+				tatsumaki.start(0)
+			}
+		}
+	}
+
+	function initSoundManager() {
+		
+		var smLemmings = soundManager.getSoundById('lemmings')
+
+		slidesLoop[special['soundManager']] = function() {
+			if(pressed('x')) {
+				soundManager.play('lemmings')
+			}
+			if(pressed('b')) {
+				soundManager.stop('lemmings')
+			}
+			if(pressed('y')) {
+				smLemmings.setVolume(smLemmings.volume + 10)
+			}
+			if(pressed('a')) {
+				smLemmings.setVolume(smLemmings.volume - 10)
 			}
 		}
 	}
@@ -498,3 +610,51 @@
 	}
 
 })()
+
+function BufferLoader(context, urlList, callback) {
+	this.context = context;
+	this.urlList = urlList;
+	this.onload = callback;
+	this.bufferList = new Array();
+	this.loadCount = 0;
+}
+
+BufferLoader.prototype.loadBuffer = function(url, index) {
+	// Load buffer asynchronously
+	var request = new XMLHttpRequest();
+	request.open("GET", url, true);
+	request.responseType = "arraybuffer";
+
+	var loader = this;
+
+	request.onload = function() {
+		// Asynchronously decode the audio file data in request.response
+		loader.context.decodeAudioData(
+			request.response,
+			function(buffer) {
+				if (!buffer) {
+					alert('error decoding file data: ' + url);
+					return;
+				}
+				loader.bufferList[index] = buffer;
+
+				if (++loader.loadCount == loader.urlList.length)
+					loader.onload(loader.bufferList);
+			},
+			function(error) {
+				console.error('decodeAudioData error', error);
+			}
+		);
+	}
+
+	request.onerror = function() {
+		alert('BufferLoader: XHR error');
+	}
+
+	request.send();
+}
+
+BufferLoader.prototype.load = function() {
+	for (var i = 0; i < this.urlList.length; ++i)
+	this.loadBuffer(this.urlList[i], i);
+}
