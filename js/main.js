@@ -33,6 +33,8 @@
 	  , slidesLoop = {}
 	  , special = []
 	  , text
+	  , buttonsPressed = []
+	  , konami = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a']
 
 	function init() {
 		gpMap()
@@ -43,6 +45,18 @@
 
 		heartbeat()
 		console.log("it's on! :)")
+	}
+
+	function pushButton(button) {
+		if(konami[buttonsPressed.length] && konami[buttonsPressed.length].toString() == button) {
+			buttonsPressed.push(button)
+			if(buttonsPressed.length === konami.length){
+				soundManager.stop('barkbark')
+				soundManager.play('barkbark')
+			}
+		} else {
+			buttonsPressed = []
+		}
 	}
 
 	window.onload = function() {
@@ -108,6 +122,7 @@
 					id: 'pause',
 					url: 'assets/mp3/03 Pause.mp3',
 					autoLoad: true,
+					volume: 50,
 					loops: 999,
 					autoPlay: true
 				})
@@ -125,12 +140,21 @@
 					url: 'assets/mp3/Street Fighter - Selecting.mp3',
 					autoLoad: true,
 					loops: 1,
+					volume: 200,
 					autoPlay: false
 				})
 
 				soundManager.createSound({
 					id: 'choose',
 					url: 'assets/mp3/Street Fighter - Choose.mp3',
+					autoLoad: true,
+					loops: 1,
+					autoPlay: false
+				})
+
+				soundManager.createSound({
+					id: 'barkbark',
+					url: 'assets/mp3/ISSD - Bark Bark.mp3',
 					autoLoad: true,
 					loops: 1,
 					autoPlay: false
@@ -245,6 +269,7 @@
 			case 1:
 				document.querySelector('.gamepad').className = 'gamepad mini'
 				document.querySelector('#slide-1 h1').className = 'blink faster'
+				soundManager.play('choose')
 				timeout = 2000
 				break
 			case special['gamepad']:
@@ -531,10 +556,11 @@
 
 		slidesLoop[special['soundManager']] = function() {
 			if(pressed('x')) {
+				soundManager.stopAll()
 				soundManager.play('lemmings')
 			}
 			if(pressed('b')) {
-				soundManager.stop('lemmings')
+				soundManager.stopAll()
 			}
 			if(pressed('y')) {
 				smLemmings.setVolume(smLemmings.volume + 10)
@@ -550,6 +576,10 @@
 			if(gamepad) {
 				button.previousState = button.state
 				button.state = gamepad.buttons[button.id]
+
+				if(pressed(name)) {
+					pushButton(name)
+				}
 				
 				if(name == "lt" || name == "rt") {
 					if(button.state > BUTTON_THRESHOLD) {

@@ -2,7 +2,9 @@ ul{list-style:none;}
 ul.bullets{display:inline-block;list-style:circle;text-align:left}
 body{background:#000;color:#fff;font-size:2vw;padding:0;margin:0;font:20px "Press Start 2P"}
 .body-wrapper{margin:0 auto;width:1024px;height:768px;position:relative}
-article{margin:0 auto;width:1024px;height:768px;box-sizing:border-box}
+article{margin:0 auto;width:1024px;height:768px;box-sizing:border-box;}
+article img:first-child{margin-top:100px}
+article img.no-margin,article img.lemming{margin-top:0}
 section{width:1024px;height:768px;text-align:center;padding:20px;box-sizing:border-box;display:none;opacity:0;transition:opacity 1s .5s;}
 section.current{display:block;opacity:1}
 h1{font-size:50px;line-height:70px;}
@@ -55,7 +57,6 @@ h1.tilde:before,h1.tilde:after{content:'~';display:block}
 }.flip{-webkit-transform:scaleX(-1)}
 #slide-1 h1{text-align:center;margin-top:500px}
 .bullets,.steps{font-size:30px;line-height:36px}
-.bullets{width:700px}
 .steps{width:800;text-align:left}
 .lemming{position:absolute;top:200px;left:0}
 .dashed{border:5px dashed #fff}
