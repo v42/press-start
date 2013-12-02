@@ -5,8 +5,8 @@ body{background:#000;color:#fff;font-size:2vw;padding:0;margin:0;font:20px "Pres
 article{margin:0 auto;width:1024px;height:768px;box-sizing:border-box;}
 article img:first-child{margin-top:100px}
 article img.no-margin,article img.lemming{margin-top:0}
-section{width:1024px;height:768px;text-align:center;padding:20px;box-sizing:border-box;display:none;opacity:0;transition:opacity 1s .5s;}
-section.current{display:block;opacity:1}
+section{width:1024px;height:768px;text-align:center;padding:20px;box-sizing:border-box;display:none;top:50px;}
+section.current{display:block}
 h1{font-size:50px;line-height:70px;}
 h1.tilde:before,h1.tilde:after{content:'~';display:block}
 @font-face{font-family:"Press Start 2P";src:url("../fonts/PressStart2P-Regular.ttf")}
