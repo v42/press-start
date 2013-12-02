@@ -10,8 +10,8 @@ Some slides have hidden secrets, I'll maybe add some hints furthermore, but by n
 - Konami code anywhere for BARK BARK! (International Superstar Soccer Deluxe's cheat code - `↑ ↑ ↓ ↓ ← → ← → B A`)
 - On the first slide, you'll have to press start actually to start!
 - On keyboard repetition, as well as on the lone lemming slide you can walk that lemming pressing `←` or `→`
-- On the gamepad slide with the lemming, you can control him using the right stick
-- On both screen output slides, you can control the circle with the right stick. Click on the screen and it will tell you which element it is. On the canvas slide, you can toggle `clearrect` by pressing your `a` button.
+- On the gamepad slide with the lemming, you can control him using the left stick
+- On both screen output slides, you can control the circle with the left stick. Click on the screen and it will tell you which element it is. On the canvas slide, you can toggle `clearrect` by pressing your `a` button.
 - On Web Audio API slide, you can go full Ryu by pressing `x`, `b` or `a`.
 - On soundManager slide, press `x` for Mozart.
 
