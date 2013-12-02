@@ -17,8 +17,8 @@ Some slides have hidden secrets, I'll maybe add some hints furthermore, but by n
 
 ## Demos I've showed on the talk
 
-http://github.com/v42/HTML-Game-Engine
-http://github.com/v42/Halloween-AI
+- http://github.com/v42/HTML-Game-Engine
+- http://github.com/v42/Halloween-AI
 
 
 ## Trivia
