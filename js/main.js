@@ -172,7 +172,7 @@
 				soundManager.stop(soundId)
 				window.clearInterval(interval)
 			}
-		}, 10)
+		}, 50)
 	}
 
 	function slides() {
@@ -582,13 +582,13 @@
 				}
 				
 				if(name == "lt" || name == "rt") {
-					if(button.state > BUTTON_THRESHOLD) {
-						domButtons[name].setAttribute("style","height:" + ((30 * (1 - button.state)) + 10) + "px")
+					if(button.state.value > BUTTON_THRESHOLD) {
+						domButtons[name].setAttribute("style","height:" + ((30 * (1 - button.state.value)) + 10) + "px")
 					} else {
 						domButtons[name].setAttribute("style","height:30px");
 					}
 				} else {
-					domButtons[name].className = "button " + name + (button.state ? " pressed" : "")
+					domButtons[name].className = "button " + name + (button.state.pressed ? " pressed" : "")
 				}
 			} else {
 				button.state = 0
@@ -605,7 +605,7 @@
 	// <3 Weezer
 	// http://youtu.be/69vdVdYvYM0
 	function heartbeat() {
-		gamepad = navigator.webkitGetGamepads && navigator.webkitGetGamepads()[0]
+		gamepad = navigator.getGamepads() && navigator.getGamepads()[0]
 
 		now = new Date().getTime()
 		dt = now - (time || now)
