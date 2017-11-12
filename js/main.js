@@ -575,20 +575,21 @@
 		_.each(buttons, function(button, name) {
 			if(gamepad) {
 				button.previousState = button.state
-				button.state = gamepad.buttons[button.id]
+				button.state = gamepad.buttons[button.id].pressed
+				button.value = gamepad.buttons[button.id].value
 
 				if(pressed(name)) {
 					pushButton(name)
 				}
 				
 				if(name == "lt" || name == "rt") {
-					if(button.state.value > BUTTON_THRESHOLD) {
-						domButtons[name].setAttribute("style","height:" + ((30 * (1 - button.state.value)) + 10) + "px")
+					if(button.value > BUTTON_THRESHOLD) {
+						domButtons[name].setAttribute("style","height:" + ((30 * (1 - button.value)) + 10) + "px")
 					} else {
 						domButtons[name].setAttribute("style","height:30px");
 					}
 				} else {
-					domButtons[name].className = "button " + name + (button.state.pressed ? " pressed" : "")
+					domButtons[name].className = "button " + name + (button.state ? " pressed" : "")
 				}
 			} else {
 				button.state = 0
